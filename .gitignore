@@ -1,5 +1,7 @@
 # evnironment settings
 .settings
 
-# folder to ignore
-GD ARM MCU Debug
+# 忽略编译中间文件
+*.o
+*.d
+*.lst

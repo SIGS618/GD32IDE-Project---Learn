@@ -65,14 +65,14 @@ int main(void)
     /* user code [local 2] begin */
     hal_gpio_bit_reset(LED_Pin_GPIO_PORT, LED_Pin_PIN);
 
-    /* hal_xxx_irq()函数实现了外设模块所有中断标志位的判断及清中断操作，这样用户就不需
-	要关心各类中断应该怎样处理，仅需要将对应中断来临时希望被调用到的函数以回调函数指针
-    的形式传入“设备中断回调函数结构体”中即可。 */
-    // 1. 声明 Timer 中断函数结构体
+    /* hal_xxx_irq()函数实现了外设模块所有中断标志位的判断及清中断操作，这样用户就不�?
+	要关心各类中断应该�?�样处理，仅�?要将对应中断来临时希望被调用到的函数以回调函数指�?
+    的形式传入�?�设备中断回调函数结构体”中即可�? */
+    // 1. 声明 Timer 中断函数结构�?
     hal_timer_irq_struct timer_irq_struct;
     // 2. 将希望响应的中断函数设置为自定义函数
     timer_irq_struct.update_usercb = timer_update_irq_handler;
-    // 3. 设置“设备中断回调函数结构体”
+    // 3. 设置“设备中断回调函数结构体�?
     hal_timer_irq_handle_set(&timer15_info, &timer_irq_struct);
     /* user code [local 2] end */
 
