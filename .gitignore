@@ -1,0 +1,5 @@
+# evnironment settings
+.settings
+
+# folder to ignore
+GD ARM MCU Debug

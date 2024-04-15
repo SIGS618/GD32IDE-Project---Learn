@@ -1,0 +1,64 @@
+FileVersion=1
+MCUPartNo=GD32E230C8T6
+
+[<PeriandPinContent>]
+PINOUT.PERIPHERAL.NODE.ADC.IN0=true
+PINOUT.PERIPHERAL.NODE.ADC.IN1=true
+PINOUT.PERIPHERAL.NODE.TIMER15.Activated=true
+PINOUT.PERIPHERAL.NODE.RCU.High Speed Crystal Oscillator (HXTAL)=Crystal/Ceramic Resonator
+PINOUT.PERIPHERAL.NODE.USART0.Mode=Asynchronous
+
+PIN.PC13.Signal=GPIO_Output
+PIN.PC13.Type=MANUAL
+PIN.PC13.Peri=GPIO
+PIN.PF0.Signal=OSCIN
+PIN.PF0.Type=AUTOMATIC
+PIN.PF0.Peri=RCU
+PIN.PF1.Signal=OSCOUT
+PIN.PF1.Type=AUTOMATIC
+PIN.PF1.Peri=RCU
+PIN.PA0.Signal=ADC_IN0
+PIN.PA0.Type=AUTOMATIC
+PIN.PA0.Peri=ADC
+PIN.PA1.Signal=ADC_IN1
+PIN.PA1.Type=AUTOMATIC
+PIN.PA1.Peri=ADC
+PIN.PA9.Signal=USART0_TX
+PIN.PA9.Type=AUTOMATIC
+PIN.PA9.Peri=USART0
+PIN.PA10.Signal=USART0_RX
+PIN.PA10.Type=AUTOMATIC
+PIN.PA10.Peri=USART0
+
+[<ClockContent>]
+RCU.SCS=SCS_10
+RCU.PREDEV=/ 2
+RCU.CK_PLL=* 18
+RCU.PLLSEL=PLLSEL_01
+
+[<PeriConfigContent>]
+GENERALCONGIG.TIMER15.TIMERBasicSettings##Prescaler=7199
+GENERALCONGIG.TIMER15.TIMERBasicSettings##CountAutoReloadValue=9999
+
+[<DMAConfigContent>]
+
+[<GPIOConfigContent>]
+GPIOCONFIG.CONFIGINFO.GPIO.PC13.MaxSpeed=2MHz
+GPIOCONFIG.CONFIGINFO.GPIO.PC13.UserLabel=LED_Pin
+GPIOCONFIG.CONFIGINFO.GPIO.PC13.ModifyFlag=TRUE
+
+[<NVICConfigContent>]
+NVIC.Non maskable interrupt##Enabled=TRUE
+NVIC.Non maskable interrupt##PreemptionPriority=0
+NVIC.Hardfault interrupt##Enabled=TRUE
+NVIC.Hardfault interrupt##PreemptionPriority=0
+NVIC.System service call via SWI instruction##Enabled=TRUE
+NVIC.System service call via SWI instruction##PreemptionPriority=0
+NVIC.Pendable request for system service##Enabled=TRUE
+NVIC.Pendable request for system service##PreemptionPriority=0
+NVIC.System tick timer##Enabled=TRUE
+NVIC.System tick timer##PreemptionPriority=0
+NVIC.TIMER15 global interrupt##Enabled=TRUE
+NVIC.TIMER15 global interrupt##PreemptionPriority=0
+NVIC.USART0 global interrupt##Enabled=TRUE
+NVIC.USART0 global interrupt##PreemptionPriority=0
