@@ -32,12 +32,19 @@ OF SUCH DAMAGE.
 #include "gd32e23x_hal.h"
 #include "gd32e23x_hal_init.h"
 /* user code [global 0] begin */
-// 要注意参数一致吗?
-void timer_update_irq_handler(hal_timer_dev_struct *timer_dev)
-{
-	if (timer_dev == &timer15_info) // 判断中断来源?
-		gpio_bit_toggle(LED_Pin_GPIO_PORT, LED_Pin_PIN);
-}
+#define ARRAY_SIZE(arr_name) (uint32_t)(sizeof(arr_name) / sizeof(*(arr_name)))
+#define TRANSMIT_SIZE(arr_name) (ARRAY_SIZE(arr_name) - 1)
+
+/* TIMER15 update interrupt user callback */
+void timer_update_callback(hal_timer_dev_struct *timer_dev);
+
+/* TIMER15 interrupt user callback function pointer structure */
+hal_timer_irq_struct timer15_irq_handle;
+
+void tx_complete_callback(hal_uart_dev_struct *uart);
+
+uint8_t transmitter_buffer[] = "led toggled!\r\n";
+__IO FlagStatus tx_end = RESET;
 /* user code [global 0] end */
 
 /*!
@@ -46,8 +53,7 @@ void timer_update_irq_handler(hal_timer_dev_struct *timer_dev)
     \param[out] none
     \retval     none
 */
-int main(void)
-{
+int main(void) {
     /* user code [local 0] begin */
 
     /* user code [local 0] end */
@@ -65,23 +71,30 @@ int main(void)
     /* user code [local 2] begin */
     hal_gpio_bit_reset(LED_Pin_GPIO_PORT, LED_Pin_PIN);
 
-    /* hal_xxx_irq()函数实现了外设模块所有中断标志位的判断及清中断操作，这样用户就不�?
-	要关心各类中断应该�?�样处理，仅�?要将对应中断来临时希望被调用到的函数以回调函数指�?
-    的形式传入�?�设备中断回调函数结构体”中即可�? */
-    // 1. 声明 Timer 中断函数结构�?
-    hal_timer_irq_struct timer_irq_struct;
-    // 2. 将希望响应的中断函数设置为自定义函数
-    timer_irq_struct.update_usercb = timer_update_irq_handler;
-    // 3. 设置“设备中断回调函数结构体�?
-    hal_timer_irq_handle_set(&timer15_info, &timer_irq_struct);
+    /* configure TIMER15 interrupt user callback function pointer structure */
+    timer15_irq_handle.update_usercb = timer_update_callback;
+    /* start TIMER counter and update interrupt */
+    hal_timer_irq_handle_set(&timer15_info, &timer15_irq_handle);
+
+    /* 使能外设 */
+    hal_timer_start_counter_interrupt(&timer15_info);
+    hal_uart_start(&uart0_info);
     /* user code [local 2] end */
 
-    while(1){
+    while (1) {
         /* user code [local 3] begin */
 
         /* user code [local 3] end */
     }
 }
-/* user code [global 1] begin */
 
+/* user code [global 1] begin */
+void timer_update_callback(hal_timer_dev_struct *timer_dev) {
+    if (timer_dev == &timer15_info) {
+        hal_gpio_bit_toggle(LED_Pin_GPIO_PORT, LED_Pin_PIN);
+        tx_end = RESET; // 我都不知道这个有什么意义
+        hal_uart_transmit_interrupt(&uart0_info, transmitter_buffer, TRANSMIT_SIZE(transmitter_buffer),
+                                    NULL);
+    }
+}
 /* user code [global 1] end */	
